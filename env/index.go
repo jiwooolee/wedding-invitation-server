@@ -18,6 +18,6 @@ func init() {
 	AdminPassword = os.Getenv("ADMIN_PASSWORD")
 	AllowOrigin = os.Getenv("ALLOW_ORIGIN")
 	if AllowOrigin == "" {
-		AllowOrigin = "https://jiwooolee.github.io/wedding-inviation/"
+		AllowOrigin = "https://jiwooolee.github.io/wedding-invitation/"
 	}
 }
