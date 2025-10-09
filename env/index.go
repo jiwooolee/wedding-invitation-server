@@ -11,11 +11,11 @@ var AdminPassword string
 var AllowOrigin string
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error: Cannot read .env file")
-		panic(err.Error())
-	}
+	// Attempt to load .env file for local development.
+	// In a production environment like Render, this file may not exist,
+	// and that's okay. Environment variables will be loaded from the system.
+	godotenv.Load()
+
 	AdminPassword = os.Getenv("ADMIN_PASSWORD")
 	AllowOrigin = os.Getenv("ALLOW_ORIGIN")
 	if AllowOrigin == "" {
