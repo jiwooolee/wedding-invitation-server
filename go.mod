@@ -1,6 +1,6 @@
-module github.com/juhonamnam/wedding-invitation-server
+module github.com/jiwooolee/wedding-invitation-server
 
-go 1.18
+go 1.25.2
 
 require (
 	github.com/joho/godotenv v1.5.1 // indirect
