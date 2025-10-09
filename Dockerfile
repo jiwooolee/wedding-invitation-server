@@ -1,22 +1,25 @@
 # Stage 1: Build the application
 FROM golang:1.18-alpine AS builder
 
+# Install C compilers and SQLite development libraries needed for go-sqlite3
+RUN apk add --no-cache build-base sqlite-dev
+
 WORKDIR /app
 
-# Copy go.mod and go.sum files to download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the source code
 COPY . .
 
-# Build the Go app
-# CGO_ENABLED=0 is used to build a statically linked binary
-# -o /app/main builds the executable in the /app directory with the name 'main'
-RUN CGO_ENABLED=0 go build -o /app/main .
+# Build the Go app with CGO enabled.
+# This is necessary for go-sqlite3 to work.
+RUN CGO_ENABLED=1 go build -o /app/main .
 
 # Stage 2: Create the final, small image
 FROM alpine:latest
+
+# Install SQLite runtime libraries
+RUN apk add --no-cache sqlite-libs
 
 WORKDIR /app
 
@@ -27,5 +30,4 @@ COPY --from=builder /app/main .
 EXPOSE 8080
 
 # Command to run the executable
-# The server will be started when the container launches
 CMD ["./main"]
