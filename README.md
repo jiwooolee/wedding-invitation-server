@@ -11,7 +11,7 @@
 1. 저장소 복제:
 
    ```bash
-   git clone https://github.com/juhonamnam/wedding-invitation-server.git
+   git clone https://github.com/jiwooolee/wedding-invitation-server.git
    cd wedding-invitation-server
    ```
 
@@ -40,3 +40,6 @@ cp .env.example .env
    ```bash
    go run app.go
    ```
+5. 호스팅:
+   github action + docker + render
+   https://render.com/
