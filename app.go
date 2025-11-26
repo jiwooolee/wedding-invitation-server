@@ -7,12 +7,13 @@ import (
 	"github.com/jiwooolee/wedding-invitation-server/env"
 	"github.com/jiwooolee/wedding-invitation-server/httphandler"
 	"github.com/jiwooolee/wedding-invitation-server/sqldb"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 	"github.com/rs/cors"
+	"os"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "./sql.db")
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err)
 	}
