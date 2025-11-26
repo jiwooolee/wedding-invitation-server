@@ -8,9 +8,9 @@ import (
 func initializeAttendanceTable() error {
 	_, err := sqlDb.Exec(`
 		CREATE TABLE IF NOT EXISTS attendance (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			id SERIAL PRIMARY KEY,
 			side VARCHAR(10),
-			name VARCHER(20),
+			name VARCHAR(20),
 			meal VARCHAR(20),
 			count INTEGER,
 			timestamp INTEGER
@@ -22,7 +22,7 @@ func initializeAttendanceTable() error {
 func CreateAttendance(side, name, meal string, count int) error {
 	_, err := sqlDb.Exec(`
 		INSERT INTO attendance (side, name, meal, count, timestamp)
-		VALUES (?, ?, ?, ?, ?)
+		VALUES ($1, $2, $3, $4, $5)
 	`, side, name, meal, count, time.Now().Unix())
 	if err != nil {
 		fmt.Println(err)

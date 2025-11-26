@@ -12,7 +12,7 @@ import (
 func initializeGuestbookTable() error {
 	_, err := sqlDb.Exec(`
 		CREATE TABLE IF NOT EXISTS guestbook (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			id SERIAL PRIMARY KEY,
 			name VARCHAR(20),
 			content VARCHAR(200),
 			password VARCHAR(20),
@@ -47,7 +47,7 @@ func GetGuestbook(offset, limit int) (*types.GuestbookGetResponse, error) {
 		FROM guestbook
 		WHERE valid = TRUE
 		ORDER BY timestamp DESC
-		LIMIT ? OFFSET ?
+		LIMIT $1 OFFSET $2
 	`, limit, offset)
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func CreateGuestbookPost(name, content, password string) error {
 
 	result, err := sqlDb.Exec(`
 		INSERT INTO guestbook (name, content, password, timestamp)
-		VALUES (?, ?, ?, ?)
+		VALUES ($1, $2, $3, $4)
 	`, name, content, phash, time.Now().Unix())
 	if err != nil {
 		fmt.Println(err)
@@ -123,7 +123,7 @@ func DeleteGuestbookPost(id int, password string) error {
 		guestbook, err := sqlDb.Query(`
 		SELECT password
 		FROM guestbook
-		WHERE id = ? AND valid = TRUE
+		WHERE id = $1 AND valid = TRUE
 	`, id)
 		if err != nil {
 			return err
@@ -156,7 +156,7 @@ func DeleteGuestbookPost(id int, password string) error {
 	result, err := sqlDb.Exec(`
 		UPDATE guestbook
 		SET valid = FALSE
-		WHERE id = ?
+		WHERE id = $1
 	`, id)
 
 	if err != nil {
