@@ -13,9 +13,9 @@ func initializeGuestbookTable() error {
 	_, err := sqlDb.Exec(`
 		CREATE TABLE IF NOT EXISTS guestbook (
 			id SERIAL PRIMARY KEY,
-			name VARCHAR(20),
+			name VARCHAR(100),
 			content VARCHAR(200),
-			password VARCHAR(20),
+			password VARCHAR(255),
 			timestamp INTEGER,
 			valid BOOLEAN DEFAULT TRUE
 		)

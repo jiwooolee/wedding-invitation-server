@@ -10,8 +10,8 @@ func initializeAttendanceTable() error {
 		CREATE TABLE IF NOT EXISTS attendance (
 			id SERIAL PRIMARY KEY,
 			side VARCHAR(10),
-			name VARCHAR(20),
-			meal VARCHAR(20),
+			name VARCHAR(100),
+			meal VARCHAR(100),
 			count INTEGER,
 			timestamp INTEGER
 		)
